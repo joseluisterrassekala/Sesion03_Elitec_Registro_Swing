@@ -20,5 +20,18 @@ public class TeoriaExprersionesRegulares {
 		//tres dígitos
 		System.out.println("823".matches("[0-9][0-9][0-9]"));
 		System.out.println("823".matches("\\d\\d\\d"));
+		System.out.println("823".matches("[0-9]{3}"));
+		System.out.println("823".matches("\\d{3}"));
+		
+		//Validar DNI
+		System.out.println("82334567".matches("[0-9]{8}"));
+		System.out.println("82334567".matches("\\d{8}"));
+		
+		//Validar RUC
+		System.out.println("82334567123".matches("[0-9]{11}"));
+		System.out.println("82334567123".matches("\\d{11}"));
+		
+		
+		
 	}
 }

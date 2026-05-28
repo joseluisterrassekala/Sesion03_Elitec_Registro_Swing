@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 
 import entidad.Alumno;
 import model.AlumnoModel;
+import util.ValidateUtil;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -113,23 +114,41 @@ public class FrnRegistraAlumno extends JFrame implements ActionListener {
 	protected void do_btnRegistrar_actionPerformed(ActionEvent e) {
 		
 		//1 Recibir los datos del formulario en String
-		String nombre = txtNombre.getText();
-		String dni = txtDni.getText();
-		String email = txtEmail.getText();
-		String fechaNacimiento = txtFechaNacimiento.getText();
+		String nombre = txtNombre.getText().trim();
+		String dni = txtDni.getText().trim();
+		String email = txtEmail.getText().trim();
+		String fechaNacimiento = txtFechaNacimiento.getText().trim();
 		
-		//2 Crear el objeto Alumno
+		//2 Validar los datos (opcional)
+		if (nombre.matches(ValidateUtil.TEXTO_40) == false) {
+			JOptionPane.showMessageDialog(this, "El nombre no es válido. Tiene que tener de 1 a 40 caracteres");
+			return;
+		}
+		if (dni.matches(ValidateUtil.DNI) == false) {
+			JOptionPane.showMessageDialog(this, "El DNI no es válido. Tiene que tener 8 dígitos");
+			return;
+		}
+		if (email.matches(ValidateUtil.EMAIL) == false) {
+			JOptionPane.showMessageDialog(this, "El email no es válido");
+			return;
+		}
+		if (fechaNacimiento.matches(ValidateUtil.DATE_YYYY_MM_DD) == false) {
+			JOptionPane.showMessageDialog(this,"La fecha de nacimiento no es válida. Tiene que tener el formato YYYY-MM-DD");
+			return;
+		}
+		
+		//3 Crear el objeto Alumno
 		Alumno obj = new Alumno();
 		obj.setNombre(nombre);
 		obj.setDni(dni);
 		obj.setCorreo(email);
 		obj.setFechaNacimiento(java.time.LocalDate.parse(fechaNacimiento));
 		
-		//3 Crear el objeto AlumnoModel
+		//4 Crear el objeto AlumnoModel
 		AlumnoModel model = new AlumnoModel();
 		int salida = model.insertaAlumno(obj);
 		
-		//4 Mostrar el resultado
+		//5 Mostrar el resultado
 		if (salida > 0) {
 			JOptionPane.showMessageDialog(this, "Alumno registrado correctamente");
 		} else {
