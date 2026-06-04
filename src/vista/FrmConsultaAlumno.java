@@ -1,31 +1,33 @@
 package vista;
 
+import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.time.LocalDate;
+import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
-import javax.swing.JButton;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.UIDefaults;
+import javax.swing.UIManager;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import entidad.Alumno;
 import model.AlumnoModel;
 import util.ValidateUtil;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyListener;
-import java.time.LocalDate;
-import java.util.List;
-import java.awt.event.KeyEvent;
 
 public class FrmConsultaAlumno extends JFrame implements ActionListener, KeyListener {
 
@@ -44,6 +46,7 @@ public class FrmConsultaAlumno extends JFrame implements ActionListener, KeyList
 	private JButton btnFiltrar;
 	private JButton btnCancelar;
 
+	
 	/**
 	 * Launch the application.
 	 */
@@ -51,6 +54,7 @@ public class FrmConsultaAlumno extends JFrame implements ActionListener, KeyList
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					UIManager.setLookAndFeel("com.jtattoo.plaf.luna.LunaLookAndFeel");
 					FrmConsultaAlumno frame = new FrmConsultaAlumno();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -145,6 +149,26 @@ public class FrmConsultaAlumno extends JFrame implements ActionListener, KeyList
 				"C\u00F3digo", "Nombre", "DNI", "Correo", "Fecha Nacimiento"
 			}
 		));
+		table.getColumnModel().getColumn(0).setPreferredWidth(30);
+		table.getColumnModel().getColumn(1).setPreferredWidth(100);
+		table.getColumnModel().getColumn(2).setPreferredWidth(50);
+		table.getColumnModel().getColumn(3).setPreferredWidth(100);
+		table.getColumnModel().getColumn(4).setPreferredWidth(50);
+		table.getTableHeader().setReorderingAllowed(false);
+		table.getTableHeader().setResizingAllowed(false);
+		table.setRowSelectionAllowed(false);
+		table.setDefaultEditor(Object.class, null);
+		
+		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+		rightRenderer.setHorizontalAlignment(JLabel.CENTER);
+		
+		table.getColumnModel().getColumn(0).setCellRenderer(rightRenderer);
+		table.getColumnModel().getColumn(2).setCellRenderer(rightRenderer);
+		table.getColumnModel().getColumn(4).setCellRenderer(rightRenderer);
+		
+		UIDefaults defaults = UIManager.getLookAndFeelDefaults();
+		defaults.putIfAbsent("Table.alternateRowColor", new Color(176, 245, 215));
+		
 		scrollPane.setViewportView(table);
 
 	}
@@ -247,4 +271,3 @@ public class FrmConsultaAlumno extends JFrame implements ActionListener, KeyList
 	protected void do_txtDni_keyReleased(KeyEvent e) {
 	}
 }
-
